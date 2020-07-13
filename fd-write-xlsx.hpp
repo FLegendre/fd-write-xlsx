@@ -1,15 +1,9 @@
 #ifndef FD_WRITE_XLSX_HPP
 #define FD_WRITE_XLSX_HPP
 
-#include <algorithm>
-#include <cstdint>
 #include <cstring>
-#include <iostream>
-#include <map>
-#include <sstream>
 #include <stdexcept>
 #include <string>
-#include <tuple>
 #include <variant>
 #include <vector>
 #include <zip.h>

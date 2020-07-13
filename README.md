@@ -1,5 +1,5 @@
 # fd-write-xlsx
-A fast and dirty C++ library to create a xlsx worksheet.
+A fast and dirty C++ library to create a xlsx workbook.
 
 This is an header only library : put the `fd-write-xlsx.hpp` file in a appropriate place and use it as
 ```C++
