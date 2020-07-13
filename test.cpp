@@ -1,8 +1,3 @@
-# fd-write-xlsx
-A fast and dirty C++ library to create a xlsx worksheet.
-
-This is an header only library : put the `fd-write-xlsx.hpp` file in a appropriate place and use it as
-```C++
 #include "fd-write-xlsx.hpp"
 
 int
@@ -26,6 +21,3 @@ main()
 
   return 0;
 }
-```
-
-This library depends on the libzip library : https://libzip.org/.
