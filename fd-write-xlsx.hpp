@@ -18,7 +18,7 @@ class Exception : public std::exception
 {
 public:
 	Exception(str_t const& msg)
-		: msg_("fd-write-xslx library: " + msg + '.')
+	  : msg_("fd-write-xslx library: " + msg + '.')
 	{}
 	const char* what() const throw() { return msg_.c_str(); }
 
@@ -185,10 +185,12 @@ write(char const* const xlsx_file_name, table_t const& table)
 			throw Exception{ "unable to create a buffer" };
 		if (zip_source_begin_write(source_ptr) < 0)
 			throw Exception{ "unable to begin write" };
+
 		auto const write{ [&](char const* const str) {
 			if (zip_source_write(source_ptr, str, std::strlen(str)) < 0)
 				throw Exception{ "unable to write" };
 		} };
+
 		auto const xmlify{ [](str_t const& str) {
 			str_t rvo{};
 			for (auto const& c : str)
@@ -198,6 +200,7 @@ write(char const* const xlsx_file_name, table_t const& table)
 					rvo += c;
 			return rvo;
 		} };
+
 		write("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
 		write("<sheetData>");
 		for (auto const& row : table) {
@@ -208,23 +211,23 @@ write(char const* const xlsx_file_name, table_t const& table)
 				auto const j{ &cell - &row[0] };
 				auto const str_j{
 					(j < 26) ? str_t(1, char('A' + j))
-									 : (j < 26 + 26 * 26)
-											 ? (str_t(1, char('A' + (j / 26 - 1) % 26)) + str_t(1, char('A' + j % 26)))
-											 : (str_t(1, char('A' + (j / (26 * 26) - 1) % 26)) +
-													str_t(1, char('A' + (j / 26 - 1) % 26)) + str_t(1, char('A' + j % 26)))
+					         : (j < 26 + 26 * 26)
+					             ? (str_t(1, char('A' + (j / 26 - 1) % 26)) + str_t(1, char('A' + j % 26)))
+					             : (str_t(1, char('A' + (j / (26 * 26) - 1) % 26)) +
+					                str_t(1, char('A' + (j / 26 - 1) % 26)) + str_t(1, char('A' + j % 26)))
 				};
 				if (std::holds_alternative<str_t>(cell))
 					write(("<c r=\"" + str_j + str_i + "\"  t=\"inlineStr\"><is><t>" +
-								 xmlify(std::get<str_t>(cell)) + "</t></is></c>")
-									.c_str());
+					       xmlify(std::get<str_t>(cell)) + "</t></is></c>")
+					        .c_str());
 				else if (std::holds_alternative<int64_t>(cell))
 					write(("<c r=\"" + str_j + str_i + "\"><v>" + std::to_string(std::get<int64_t>(cell)) +
-								 "</v></c>")
-									.c_str());
+					       "</v></c>")
+					        .c_str());
 				else if (std::holds_alternative<double>(cell))
 					write(("<c r=\"" + str_j + str_i + "\"><v>" + std::to_string(std::get<double>(cell)) +
-								 "</v></c>")
-									.c_str());
+					       "</v></c>")
+					        .c_str());
 				else
 					throw Exception{ "internal error" };
 			}
@@ -236,8 +239,11 @@ write(char const* const xlsx_file_name, table_t const& table)
 
 		zip_file_add(zip.archive_ptr_, "xl/worksheets/sheet1.xml", source_ptr, 0);
 	}
-	if (zip_close(zip.archive_ptr_) < 0)
-		throw Exception{ "unable to close the workbook" };
+}
+void
+write(str_t const& xlsx_file_name, table_t const& table)
+{
+	write(xlsx_file_name.c_str(), table);
 }
 } // namespace fd_write_xlsx
 #endif // FD_WRITE_XLSX_HPP
