@@ -194,8 +194,16 @@ write(char const* const xlsx_file_name, table_t const& table)
 		auto const xmlify{ [](str_t const& str) {
 			str_t rvo{};
 			for (auto const& c : str)
-				if (c == '<')
+				if (c == '"')
+					rvo += "&quot;";
+				else if (c == '\'')
+					rvo += "&apos;";
+				else if (c == '<')
 					rvo += "&lt;";
+				else if (c == '>')
+					rvo += "&gt;";
+				else if (c == '&')
+					rvo += "&amp;";
 				else
 					rvo += c;
 			return rvo;
