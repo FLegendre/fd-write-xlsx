@@ -213,7 +213,7 @@ write(char const* const xlsx_file_name, table_t const& table)
 					(j < 26) ? str_t(1, char('A' + j))
 					         : (j < 26 + 26 * 26)
 					             ? (str_t(1, char('A' + (j / 26 - 1) % 26)) + str_t(1, char('A' + j % 26)))
-					             : (str_t(1, char('A' + (j / (26 * 26) - 1) % 26)) +
+					             : (str_t(1, char('A' + ((j / 26 - 1) / 26 - 1) % 26)) +
 					                str_t(1, char('A' + (j / 26 - 1) % 26)) + str_t(1, char('A' + j % 26)))
 				};
 				if (std::holds_alternative<str_t>(cell))
