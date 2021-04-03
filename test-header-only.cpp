@@ -3,17 +3,17 @@
 int
 main()
 {
-	// The namespace defines “sheet_t” as the sheet type (a std::vector of std::vector).
+	// “sheet_t” is a std::vector of std::vectors of “cell_t” instances and “cell_t” is a
+	// std::variant<std::string, int64_t, double>.
+
 	fd_write_xlsx::sheet_t sheet;
 
 	// Populate the sheet with 3 rows...
 	{
-		using namespace fd_write_xlsx;
-		// The namespace defines “cell_t” as the cell type (a std::variant).
-		sheet.push_back({ cell_t{ "a" }, cell_t{ "b" }, cell_t{ "c" } });
+		sheet.push_back({ { "a" }, { "b" }, { "c" } });
 		// To insert a integer, you need an long integer.
-		sheet.push_back({ cell_t{ 1l }, cell_t{ 2l }, cell_t{ 3l } });
-		sheet.push_back({ cell_t{ 1.1 }, cell_t{ 2.2 }, cell_t{ 3.3 } });
+		sheet.push_back({ { 1l }, { 2l }, { 3l } });
+		sheet.push_back({ { 1.1 }, { 2.2 }, { 3.3 } });
 	}
 
 	// Then, write the sheet as a Microsoft xlsx workbook.

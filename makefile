@@ -12,4 +12,4 @@ test : fd-write-xlsx.hpp test.cpp
 	g++ -std=c++17 -Wall -g test.cpp fd-write-xlsx.a -lzip --output test
 
 format :
-	clang-format -i fd-write-xlsx-header-only.hpp fd-write-xlsx.hpp fd-write-xlsx.cpp test-header-only.cpp
+	clang-format -i fd-write-xlsx-header-only.hpp fd-write-xlsx.hpp fd-write-xlsx.cpp test.cpp test-header-only.cpp
