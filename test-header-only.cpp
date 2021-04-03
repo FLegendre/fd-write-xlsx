@@ -5,7 +5,6 @@ main()
 {
 	// “sheet_t” is a std::vector of std::vectors of “cell_t” instances and “cell_t” is a
 	// std::variant<std::string, int64_t, double>.
-
 	fd_write_xlsx::sheet_t sheet;
 
 	// Populate the sheet with 3 rows...
