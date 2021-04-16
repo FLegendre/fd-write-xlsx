@@ -189,7 +189,8 @@ write(char const* const xlsx_file_name, sheet_t const& sheet)
 			for (auto const& c : str)
 				if ((c == '\t') || (c == '\n') || (c == '\r'))
 					rvo += c;
-				else if (c < 32)
+				// To keep utf-8 encoded string if char is signed type.
+				else if ((0 <= c) && (c < 32))
 					;
 				else if (c == '"')
 					rvo += "&quot;";
